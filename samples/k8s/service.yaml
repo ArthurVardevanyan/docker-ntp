@@ -15,4 +15,20 @@ spec:
     app: ntp-rootless
   type: LoadBalancer # ClusterIP
   loadBalancerClass: ""
-  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ntp-rootless-metrics
+  namespace: ntp
+  labels:
+    app: ntp-rootless
+spec:
+  ports:
+    - name: metrics
+      port: 9433
+      targetPort: metrics
+      protocol: TCP
+  selector:
+    app: ntp-rootless
+  type: ClusterIP
