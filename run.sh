@@ -12,6 +12,11 @@ function check_container() {
 
 # function to start new docker container
 function start_container() {
+  METRICS_OPTS=""
+  if [ "${ENABLE_METRICS}" = true ]; then
+    METRICS_OPTS="--publish=${METRICS_PORT}:${METRICS_PORT}/tcp --env=ENABLE_METRICS=true --env=METRICS_PORT=${METRICS_PORT}"
+  fi
+
   $DOCKER run --name=${CONTAINER_NAME}             \
               --detach=true                        \
               --restart=always                     \
@@ -24,6 +29,7 @@ function start_container() {
               --tmpfs=/etc/chrony:rw,mode=1750     \
               --tmpfs=/run/chrony:rw,mode=1750     \
               --tmpfs=/var/lib/chrony:rw,mode=1750 \
+              ${METRICS_OPTS}                      \
               ${DOCKER_OPTS}                       \
               ${IMAGE_NAME}:latest > /dev/null
 }

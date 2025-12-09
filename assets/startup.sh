@@ -85,6 +85,12 @@ done
   echo "allow all"
 } >> ${CHRONY_CONF_FILE}
 
+# startup chrony_exporter if enabled
+if [ "${ENABLE_METRICS:-false}" = true ]; then
+  echo "Starting chrony_exporter on port ${METRICS_PORT:-9433}..."
+  /usr/local/bin/chrony_exporter --web.listen-address=":${METRICS_PORT:-9433}" --chrony.address="127.0.0.1:${CMDPORT:-323}" &
+fi
+
 ## startup chronyd in the foreground
 if [ "${SKIP_CHOWN:-false}" = false ] ; then
   exec /usr/sbin/chronyd -u chrony -d -x -L ${LOG_LEVEL}

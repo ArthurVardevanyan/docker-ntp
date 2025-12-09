@@ -8,9 +8,12 @@ services:
     restart: always
     ports:
       - 123:123/udp
+#      - 9433:9433/tcp
     environment:
       - NTP_SERVERS=time.cloudflare.com
       - LOG_LEVEL=0
 #      - TZ=America/Vancouver
 #      - NOCLIENTLOG=true
 #      - ENABLE_NTS=true
+#      - ENABLE_METRICS=true
+#      - METRICS_PORT=9433

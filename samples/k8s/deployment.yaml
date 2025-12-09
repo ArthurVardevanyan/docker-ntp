@@ -39,6 +39,9 @@ spec:
             - containerPort: 12345
               name: ntp
               protocol: UDP
+            - containerPort: 9433
+              name: metrics
+              protocol: TCP
           securityContext:
             runAsUser: 1001 # Not Needed for OpenShift
             runAsGroup: 1001 # Not Needed for OpenShift
@@ -69,6 +72,10 @@ spec:
               value: "10323"
             - name: ENABLE_NTS
               value: "true"
+            - name: ENABLE_METRICS
+              value: "true"
+            - name: METRICS_PORT
+              value: "9433"
           volumeMounts:
             - name: ntp-config
               mountPath: /etc/chrony/
